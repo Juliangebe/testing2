@@ -11,11 +11,10 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.ITestResult;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,11 +29,24 @@ public class BaseClass {
     public static ExtentTest test;
 
 
+    @Parameters("browser")
     @BeforeMethod
-    public void setUp(Method method) {
-        WebDriverManager.chromedriver().setup();
-        driver = new ChromeDriver();
-        // Common setup steps, e.g., maximize window, set implicit wait
+    public void setUp(Method method,@Optional("Chrome") String browser) {
+       if  (browser.equalsIgnoreCase("Chrome")){
+           WebDriverManager.chromedriver().setup();
+           driver = new ChromeDriver();
+       } else if (browser.equalsIgnoreCase("Firefox")){
+           WebDriverManager.firefoxdriver().setup();
+           driver = new FirefoxDriver();
+       }else if (browser.equalsIgnoreCase("Edge")){
+           WebDriverManager.edgedriver().setup();
+           driver = new EdgeDriver();
+       }else {
+           throw new IllegalArgumentException("Browser not supported" +browser);
+
+       }
+
+
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         test = extent.createTest(method.getName());
