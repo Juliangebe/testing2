@@ -43,6 +43,15 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y microsoft-edge-stable
 
+    - name: Check installed Chrome version
+      run: google-chrome --version
+
+    - name: Check installed Firefox version
+      run: firefox --version
+
+    - name: Check installed Firefox version
+      run: firefox --version
+
     # Build with Maven
     - name: Build with Maven
       run: mvn -B package --file pom.xml
@@ -51,9 +60,5 @@ jobs:
     - name: Run tests
       run: mvn test
 
-    - name: Check installed Chrome version
-      run: google-chrome --version
-
-    - name: Check installed Firefox version
-      run: firefox --version
+    
 
