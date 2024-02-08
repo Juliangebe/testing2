@@ -49,6 +49,7 @@ public class BaseClass {
            WebDriverManager.firefoxdriver().setup();
            FirefoxOptions options = new FirefoxOptions();
            options.addArguments("--headless");
+           options.setHeadless(true);
            driver = new FirefoxDriver(options);
 
        }else if (browser.equalsIgnoreCase("Edge")){
