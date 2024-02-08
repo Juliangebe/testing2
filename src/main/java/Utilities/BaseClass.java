@@ -14,6 +14,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
+import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.testng.ITestResult;
@@ -49,7 +50,9 @@ public class BaseClass {
            WebDriverManager.firefoxdriver().setup();
            FirefoxOptions options = new FirefoxOptions();
            options.addArguments("--headless");
-           options.setHeadless(true);
+           FirefoxBinary firefoxBinary = new FirefoxBinary();
+           firefoxBinary.addCommandLineOptions("--headless");
+           options.setBinary(firefoxBinary);
            driver = new FirefoxDriver(options);
 
        }else if (browser.equalsIgnoreCase("Edge")){
