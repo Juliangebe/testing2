@@ -49,8 +49,9 @@ jobs:
     - name: Check installed Firefox version
       run: firefox --version
 
-    - name: Check installed Firefox version
-      run: firefox --version
+    - name: Check Geckodriver version
+      run: geckodriver --version
+      
 
     # Build with Maven
     - name: Build with Maven
