@@ -50,3 +50,10 @@ jobs:
     # Run tests with Maven
     - name: Run tests
       run: mvn test
+
+    - name: Check installed Chrome version
+      run: google-chrome --version
+
+    - name: Check installed Firefox version
+      run: firefox --version
+
