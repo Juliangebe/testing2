@@ -10,7 +10,7 @@ public class BaseClassTest1 extends BaseClass {
     public void myTest(){
 
         driver.get("https://www.youtube.com.co/");
-        Assert.assertEquals("youtube",driver.getTitle());
+        Assert.assertEquals("Youtube",driver.getTitle());
 
     }
 }
