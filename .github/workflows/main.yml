@@ -34,6 +34,14 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y firefox
 
+    - name: Install specific Geckodriver version
+      run: |
+       GECKODRIVER_VERSION="0.29.0"
+       wget "https://github.com/mozilla/geckodriver/releases/download/v$GECKODRIVER_VERSION/geckodriver-v$GECKODRIVER_VERSION-linux64.tar.gz"
+       tar -xzf geckodriver-v$GECKODRIVER_VERSION-linux64.tar.gz
+       sudo mv geckodriver /usr/local/bin/
+       geckodriver --version
+
     # Install Microsoft Edge browser
     - name: Install Microsoft Edge
       run: |
