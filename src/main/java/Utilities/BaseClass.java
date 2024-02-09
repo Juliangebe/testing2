@@ -47,7 +47,7 @@ public class BaseClass {
 
        } else if (browser.equalsIgnoreCase("Firefox")){
 
-           WebDriverManager.firefoxdriver().driverVersion("0.29.0").setup();
+           WebDriverManager.firefoxdriver().setup();
 
            FirefoxOptions options = new FirefoxOptions();
            options.addArguments("--headless");
