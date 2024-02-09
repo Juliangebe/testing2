@@ -21,19 +21,23 @@ jobs:
       with:
         java-version: '17'
         distribution: 'adopt'
+        
+    - name: Install specific version of Firefox
+      run: |
+        sudo apt remove -y firefox
+        FIREFOX_VERSION="116.0.3" # Reemplaza esto con la versión deseada
+        wget "https://download-installer.cdn.mozilla.net/pub/firefox/releases/$FIREFOX_VERSION/linux-x86_64/en-US/firefox-$FIREFOX_VERSION.tar.bz2"
+        sudo tar -xjf "firefox-$FIREFOX_VERSION.tar.bz2" -C /opt/
+        sudo rm -rf /usr/bin/firefox
+        sudo ln -s /opt/firefox/firefox /usr/bin/firefox
+        firefox --version
 
     # Install Chrome browser
     - name: Install Chrome
       run: |
         sudo apt-get update
         sudo apt-get install -y google-chrome-stable
-
-    # Install Firefox browser
-    - name: Install Firefox
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y firefox
-
+  
     - name: Install specific Geckodriver version
       run: |
        GECKODRIVER_VERSION="0.29.0"
