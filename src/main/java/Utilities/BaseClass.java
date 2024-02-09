@@ -51,7 +51,7 @@ public class BaseClass {
 
            FirefoxOptions options = new FirefoxOptions();
            options.addArguments("--headless");
-           
+
 
            driver = new FirefoxDriver(options);
 
