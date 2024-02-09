@@ -47,12 +47,12 @@ public class BaseClass {
 
        } else if (browser.equalsIgnoreCase("Firefox")){
 
-           WebDriverManager.firefoxdriver().setup();
+           WebDriverManager.firefoxdriver().driverVersion("0.29.0").setup();
+
            FirefoxOptions options = new FirefoxOptions();
            options.addArguments("--headless");
-           FirefoxBinary firefoxBinary = new FirefoxBinary();
-           firefoxBinary.addCommandLineOptions("--headless");
-           options.setBinary(firefoxBinary);
+           
+
            driver = new FirefoxDriver(options);
 
        }else if (browser.equalsIgnoreCase("Edge")){
