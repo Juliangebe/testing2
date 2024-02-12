@@ -43,14 +43,16 @@ public class BaseClass {
            options.addArguments("--no-sandbox");
            options.addArguments("--disable-gpu");
            options.addArguments("--disable-dev-shm-usage");
+
+
            driver = new ChromeDriver(options);
 
        } else if (browser.equalsIgnoreCase("Firefox")){
 
            WebDriverManager.firefoxdriver().setup();
-
            FirefoxOptions options = new FirefoxOptions();
            options.addArguments("--headless");
+
 
 
            driver = new FirefoxDriver(options);
@@ -59,6 +61,8 @@ public class BaseClass {
            WebDriverManager.edgedriver().setup();
            EdgeOptions options = new EdgeOptions();
            options.addArguments("--headless");
+
+
            driver = new EdgeDriver(options);
        }else {
            throw new IllegalArgumentException("Browser not supported" +browser);
