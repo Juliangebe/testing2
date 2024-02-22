@@ -1,5 +1,6 @@
 PageObjects\DemoLoginPage.class
 Utilities\BaseClass.class
 Utilities\ExtentManager.class
+Utilities\ConfigLoader.class
 PageObjects\DemoRegisterFormPage.class
 Utilities\TestUtils.class

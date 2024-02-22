@@ -1,26 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
 <suite name="Failed suite [SuiteName]" guice-stage="DEVELOPMENT" verbose="0">
-  <test thread-count="5" name="FillFormTest(failed)" verbose="0">
-    <parameter name="browser" value="Firefox"/>
-    <classes>
-      <class name="com.DemoLogin.FillFormTest">
-        <methods>
-          <include name="setUp"/>
-          <include name="clicOnAlert"/>
-          <include name="tearDown"/>
-          <include name="tearDown"/>
-        </methods>
-      </class> <!-- com.DemoLogin.FillFormTest -->
-    </classes>
-  </test> <!-- FillFormTest(failed) -->
   <test thread-count="5" name="BaseClassTest1(failed)" verbose="0">
     <parameter name="browser" value="Chrome"/>
     <classes>
       <class name="com.DemoLogin.BaseClassTest1">
         <methods>
           <include name="myTest"/>
-          <include name="setUp"/>
+          <include name="setUp2"/>
           <include name="tearDown"/>
           <include name="tearDown"/>
         </methods>

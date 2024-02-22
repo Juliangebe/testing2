@@ -8,7 +8,7 @@
     </test>
 
     <test name="BaseClassTest">
-        <parameter name="browser" value="Edge"/>
+        <parameter name="browser" value="Android"/>
         <classes>
             <class name="com.DemoLogin.BaseClassTest"/>
         </classes>

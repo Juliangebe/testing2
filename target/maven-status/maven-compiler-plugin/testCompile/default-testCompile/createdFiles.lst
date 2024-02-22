@@ -4,5 +4,6 @@ com\DemoLogin\DemoRegisterTest.class
 com\DemoLogin\BaseClassTest3.class
 com\DemoLogin\FillFormTest.class
 com\DemoLogin\BaseClassTest2.class
+API\ApiTests.class
 com\DemoLogin\BaseClassTest.class
 com\DemoLogin\FirstClass.class

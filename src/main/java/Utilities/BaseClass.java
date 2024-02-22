@@ -17,13 +17,21 @@ import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
 
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.time.Duration;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
 public class BaseClass {
@@ -35,47 +43,89 @@ public class BaseClass {
 
     @Parameters("browser")
     @BeforeMethod
-    public void setUp(Method method,@Optional("Chrome") String browser) {
-       if  (browser.equalsIgnoreCase("Chrome")){
-           WebDriverManager.chromedriver().setup();
-           ChromeOptions options = new ChromeOptions();
-           options.addArguments("--headless");
-           options.addArguments("--no-sandbox");
-           options.addArguments("--disable-gpu");
-           options.addArguments("--disable-dev-shm-usage");
+    public void setUp2(Method method, @Optional("Chrome") String browser) throws MalformedURLException {
+        Properties prop = ConfigLoader.loadConfig("src/test/resources/env.properties");
+        String environment = prop.getProperty("test.environment");
 
+        String AUTOMATE_USERNAME = prop.getProperty("browserstack.user");
+        String AUTOMATE_ACCESS_KEY = prop.getProperty("browserstack.key");
+        String URL = "https://" + AUTOMATE_USERNAME + ":" + AUTOMATE_ACCESS_KEY +
+                "@hub-cloud.browserstack.com/wd/hub";
+        DesiredCapabilities caps = new DesiredCapabilities();
 
-           driver = new ChromeDriver(options);
+        Map<String, Object> browserstackOptions = new HashMap<>();
+        browserstackOptions.put("userName", AUTOMATE_USERNAME);
+        browserstackOptions.put("accessKey", AUTOMATE_ACCESS_KEY);
+        browserstackOptions.put("projectName", "Testing");
+        browserstackOptions.put("buildName", "Automation ");
+        browserstackOptions.put("sessionName", method.getName()); // dynamically set session name
 
-       } else if (browser.equalsIgnoreCase("Firefox")){
+        if ("remote".equalsIgnoreCase(environment)) {
+            switch (browser.toLowerCase()) {
+                case "chrome":
+                    browserstackOptions.put("os", "Windows");
+                    browserstackOptions.put("osVersion", "10");
+                    browserstackOptions.put("browserName", "Chrome");
+                    browserstackOptions.put("browserVersion", "latest");
+                    break;
+                case "firefox":
+                    browserstackOptions.put("os", "Windows");
+                    browserstackOptions.put("osVersion", "10");
+                    browserstackOptions.put("browserName", "Firefox");
+                    browserstackOptions.put("browserVersion", "latest");
+                    break;
+                case "ios":
+                    browserstackOptions.put("osVersion", "16");
+                    browserstackOptions.put("deviceName", "iPhone 14");
+                    browserstackOptions.put("realMobile", "true");
+                    break;
+                case "android":
+                    browserstackOptions.put("osVersion", "12.0");
+                    browserstackOptions.put("deviceName", "Samsung Galaxy S22 Ultra");
+                    browserstackOptions.put("realMobile", "true");
+                    browserstackOptions.put("browserName", "Chrome");
+                    browserstackOptions.put("appiumVersion", "1.22.0");
+                    break;
+                default:
+                    throw new IllegalArgumentException("Unsupported browser: " + browser);
+            }
+            caps.setCapability("bstack:options", browserstackOptions);
+            driver = new RemoteWebDriver(new URL(URL), caps);
+        } else {
 
-           WebDriverManager.firefoxdriver().setup();
-           FirefoxOptions options = new FirefoxOptions();
-           options.addArguments("--headless");
-
-
-
-           driver = new FirefoxDriver(options);
-
-       }else if (browser.equalsIgnoreCase("Edge")){
-           WebDriverManager.edgedriver().setup();
-           EdgeOptions options = new EdgeOptions();
-           options.addArguments("--headless");
-
-
-           driver = new EdgeDriver(options);
-       }else {
-           throw new IllegalArgumentException("Browser not supported" +browser);
-
-       }
-
+            switch (browser.toLowerCase()) {
+                case "chrome":
+                    WebDriverManager.chromedriver().setup();
+                    ChromeOptions chromeOptions = new ChromeOptions();
+                    chromeOptions.addArguments("--headless");
+                    chromeOptions.addArguments("--no-sandbox");
+                    chromeOptions.addArguments("--disable-gpu");
+                    chromeOptions.addArguments("--disable-dev-shm-usage");
+                    driver = new ChromeDriver(chromeOptions);
+                    break;
+                case "firefox":
+                    WebDriverManager.firefoxdriver().setup();
+                    FirefoxOptions firefoxOptions = new FirefoxOptions();
+                    firefoxOptions.addArguments("--headless");
+                    driver = new FirefoxDriver(firefoxOptions);
+                    break;
+                case "edge":
+                    WebDriverManager.edgedriver().setup();
+                    EdgeOptions edgeOptions = new EdgeOptions();
+                    edgeOptions.addArguments("--headless");
+                    driver = new EdgeDriver(edgeOptions);
+                    break;
+                default:
+                    throw new IllegalArgumentException("Unsupported browser: " + browser);
+            }
+        }
 
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         test = extent.createTest(method.getName());
-
-
     }
+
+
 
     @AfterClass
     public void tearDown() {
